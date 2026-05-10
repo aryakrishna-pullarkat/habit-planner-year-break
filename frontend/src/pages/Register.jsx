@@ -59,7 +59,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f4f4f4",
+    background: "linear-gradient(135deg, #2a0854, #6a11cb, #2575fc)",
   },
 
   form: {
@@ -67,10 +67,10 @@ const styles = {
     flexDirection: "column",
     gap: "15px",
     padding: "30px",
-    backgroundColor: "white",
+    backgroundColor: "#f1e8f1",
     borderRadius: "10px",
     width: "300px",
-    boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+    boxShadow: "0px 0px 1300px rgba(246, 173, 219, 0.98)",
   },
 
   input: {

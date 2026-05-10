@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
+console.log(process.env.MONGO_URI);
+
 const User = require("./models/User");
 
 const app = express();
