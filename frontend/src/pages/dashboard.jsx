@@ -1,3 +1,4 @@
+import "./Dashboard.css";
 import Navbar from "../components/Navbar";
 import StatsCard from "../components/StatsCard";
 import HabitCard from "../components/HabitCard";
