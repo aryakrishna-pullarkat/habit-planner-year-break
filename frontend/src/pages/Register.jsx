@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 function Register() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,6 +13,7 @@ function Register() {
       const response = await axios.post(
         "http://localhost:5000/api/auth/register",
         {
+          username,
           email,
           password,
         }
@@ -19,8 +21,12 @@ function Register() {
 
       console.log(response.data);
 
+      alert(response.data.message);
+
     } catch (error) {
       console.log(error);
+
+      alert(error.response.data.message);
     }
   };
 
@@ -28,6 +34,14 @@ function Register() {
     <div style={styles.container}>
       <form style={styles.form} onSubmit={handleRegister}>
         <h2>Register</h2>
+
+        <input
+          type="text"
+          placeholder="Enter Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={styles.input}
+        />
 
         <input
           type="email"
@@ -59,7 +73,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(135deg, #2a0854, #6a11cb, #2575fc)",
+    background: "linear-gradient(135deg, #084654, #2e104b, #571ca5)",
   },
 
   form: {
@@ -67,10 +81,10 @@ const styles = {
     flexDirection: "column",
     gap: "15px",
     padding: "30px",
-    backgroundColor: "#f1e8f1",
+    backgroundColor: "#ffffff",
     borderRadius: "10px",
     width: "300px",
-    boxShadow: "0px 0px 1300px rgba(246, 173, 219, 0.98)",
+    boxShadow: "0px 0px 100px rgba(19, 64, 154, 0.98)",
   },
 
   input: {
