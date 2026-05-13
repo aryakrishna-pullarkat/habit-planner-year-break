@@ -63,6 +63,43 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { emailOrUsername, password } = req.body;
+
+    const user = await User.findOne({
+      $or: [
+        { email: emailOrUsername },
+        { username: emailOrUsername },
+      ],
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        message:
+          "Credentials do not exist. Please register.",
+      });
+    }
+
+    if (user.password !== password) {
+      return res.status(400).json({
+        message: "Incorrect password",
+      });
+    }
+
+    res.status(200).json({
+      message: "Login successful",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
