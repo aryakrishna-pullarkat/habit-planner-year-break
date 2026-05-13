@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import Layout from "../components/Layout";
 
 function Login() {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -37,61 +39,62 @@ function Login() {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.overlay}></div>
+    <Layout>
+      <div style={styles.container}>
 
-      <form style={styles.form} onSubmit={handleLogin}>
-        <h1 style={styles.title}>Welcome Back</h1>
+        <form style={styles.form} onSubmit={handleLogin}>
+          <h1 style={styles.title}>Welcome Back to cult</h1>
 
-        <p style={styles.subtitle}>
-          Login to continue your journey 🚀
-        </p>
-
-        <input
-          type="text"
-          placeholder="Enter Email or Username"
-          value={emailOrUsername}
-          onChange={(e) =>
-            setEmailOrUsername(e.target.value)
-          }
-          style={styles.input}
-        />
-
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-        />
-
-        {message && (
-          <p
-            style={{
-              color:
-                message === "Login successful ✨"
-                  ? "#90ee90"
-                  : "#ffb3c1",
-              fontSize: "14px",
-              margin: "0",
-            }}
-          >
-            {message}
+          <p style={styles.subtitle}>
+            Login to continue your journey
           </p>
-        )}
 
-        <button type="submit" style={styles.button}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
+          <input
+            type="text"
+            placeholder="Enter Email or Username"
+            value={emailOrUsername}
+            onChange={(e) =>
+              setEmailOrUsername(e.target.value)
+            }
+            style={styles.input}
+          />
 
-        <p style={styles.registerText}>
-          Don’t have an account?{" "}
-          <span style={styles.registerLink}>
-            Register
-          </span>
-        </p>
-      </form>
-    </div>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+          />
+
+          {message && (
+            <p
+              style={{
+                color:
+                  message === "Login successful ✨"
+                    ? "#90ee90"
+                    : "#ffb3c1",
+                fontSize: "14px",
+                margin: "0",
+              }}
+            >
+              {message}
+            </p>
+          )}
+
+          <button type="submit" style={styles.button}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <p style={styles.registerText}>
+            Don’t have an account?{" "}
+            <span >
+              <Link style={styles.registerLink} to="/Register">Register</Link>
+            </span>
+          </p>
+        </form>
+      </div>
+    </Layout>
   );
 }
 
@@ -105,13 +108,6 @@ const styles = {
       "linear-gradient(135deg, #f7f4f5, #bcb4fd, #732ee3)",
     position: "relative",
     overflow: "hidden",
-  },
-
-  overlay: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    backdropFilter: "blur(2px)",
   },
 
   form: {
