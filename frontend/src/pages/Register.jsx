@@ -73,7 +73,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(135deg, #084654, #2e104b, #571ca5)",
+    background: "linear-gradient(135deg, #f7f4f5, #bcb4fd, #732ee3)",
   },
 
   form: {
@@ -84,7 +84,7 @@ const styles = {
     backgroundColor: "#ffffff",
     borderRadius: "10px",
     width: "300px",
-    boxShadow: "0px 0px 100px rgba(19, 64, 154, 0.98)",
+    boxShadow: "0px 0px 100px rgba(220, 227, 240, 0.98)",
   },
 
   input: {
