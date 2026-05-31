@@ -1,21 +1,30 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import Layout from "../components/Layout";
 
-function Login() {
-  const [emailOrUsername, setEmailOrUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+function Login({ switchToRegister , setFocused }) {
+
+  const [emailOrUsername, setEmailOrUsername] =
+    useState("");
+
+  const [password, setPassword] =
+    useState("");
+
+  const [message, setMessage] =
+    useState("");
+
+  const [loading, setLoading] =
+    useState(false);
 
   const handleLogin = async (e) => {
+
     e.preventDefault();
 
-    setMessage("");
     setLoading(true);
 
+    setMessage("");
+
     try {
+
       const response = await axios.post(
         "http://localhost:5000/api/auth/login",
         {
@@ -27,7 +36,9 @@ function Login() {
       console.log(response.data);
 
       setMessage("Login successful ✨");
+
     } catch (error) {
+
       console.log(error);
 
       setMessage(
@@ -39,138 +50,212 @@ function Login() {
   };
 
   return (
-    <Layout>
-      <div style={styles.container}>
 
-        <form style={styles.form} onSubmit={handleLogin}>
-          <h1 style={styles.title}>Welcome Back to cult</h1>
+    <form
+      style={styles.form}
+      onSubmit={handleLogin}
+    >
 
-          <p style={styles.subtitle}>
-            Login to continue your journey
-          </p>
+      <h1 style={styles.title}>
+        Welcome Back to cult
+      </h1>
 
-          <input
-            type="text"
-            placeholder="Enter Email or Username"
-            value={emailOrUsername}
-            onChange={(e) =>
-              setEmailOrUsername(e.target.value)
-            }
-            style={styles.input}
-          />
+      <p style={styles.subtitle}>
+        Login to continue your journey
+      </p>
 
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-          />
+      <input
+        type="text"
+        placeholder="Enter Email or Username"
 
-          {message && (
-            <p
-              style={{
-                color:
-                  message === "Login successful ✨"
-                    ? "#90ee90"
-                    : "#ffb3c1",
-                fontSize: "14px",
-                margin: "0",
-              }}
-            >
-              {message}
-            </p>
-          )}
+        value={emailOrUsername}
 
-          <button type="submit" style={styles.button}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
+        onChange={(e) =>
+          setEmailOrUsername(e.target.value)
+        }
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={styles.input}
+      />
 
-          <p style={styles.registerText}>
-            Don’t have an account?{" "}
-            <span >
-              <Link style={styles.registerLink} to="/Register">Register</Link>
-            </span>
-          </p>
-        </form>
-      </div>
-    </Layout>
+      <input
+        type="password"
+        placeholder="Enter Password"
+
+        value={password}
+
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={styles.input}
+      />
+
+      {message && (
+
+        <p
+          style={{
+            color:
+              message === "Login successful ✨"
+                ? "#90ee90"
+                : "#ffb3c1",
+
+            fontSize: "14px",
+            margin: "0",
+            textAlign: "center",
+          }}
+        >
+          {message}
+        </p>
+
+      )}
+
+      <button
+        type="submit"
+        style={styles.button}
+        className="auth-btn"
+      >
+
+        {
+          loading
+            ? "Logging in..."
+            : "Login"
+        }
+
+      </button>
+
+      <p style={styles.registerText}>
+
+        Don’t have an account?{" "}
+
+        <span
+          style={styles.registerLink}
+          onClick={switchToRegister}
+        >
+          Register
+        </span>
+
+      </p>
+
+    </form>
   );
 }
 
 const styles = {
-  container: {
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background:
-      "linear-gradient(135deg, #f7f4f5, #bcb4fd, #732ee3)",
-    position: "relative",
-    overflow: "hidden",
-  },
 
   form: {
+
     display: "flex",
+
     flexDirection: "column",
-    gap: "18px",
-    padding: "40px",
-    background: "rgba(255,255,255,0.35)",
-    border: "1px solid rgba(255,255,255,0.4)",
-    borderRadius: "20px",
-    width: "350px",
-    boxShadow: "0px 10px 40px rgba(80, 0, 180, 0.25)",
-    zIndex: 1,
-    backdropFilter: "blur(18px)",
+
+    gap: "20px",
+
+    padding: "50px",
+
+    position: "relative",
+
+    background:
+      "rgba(255, 255, 255, 0.70)",
+
+    border:
+      "1px solid rgb(255, 255, 255)",
+
+    borderRadius: "30px",
+
+    width: "400px",
+
+    boxShadow:
+      "0px 20px 60px rgba(81, 0, 180, 0.36)",
+
+    zIndex: 2,
+
+    transform: "translateY(-10px)",
+
+    backdropFilter: "blur(10px)",
   },
 
   title: {
+
     color: "#7154ee",
+
     margin: "0",
+
     fontSize: "32px",
+
     textAlign: "center",
   },
 
   subtitle: {
+
     color: "#372cb3",
+
     textAlign: "center",
+
     marginTop: "-10px",
+
     marginBottom: "10px",
+
     fontSize: "14px",
   },
 
   input: {
+
     padding: "14px",
+
     fontSize: "15px",
+
     borderRadius: "10px",
-    border: "1px solid rgba(255,255,255,0.2)",
+
+    border:
+      "1px solid rgba(255,255,255,0.2)",
+
     outline: "none",
-    background: "rgba(255,255,255,0.25)",
+
+    background:
+      "rgba(255,255,255,0.25)",
+
     color: "#4b3f72",
   },
 
   button: {
+
     padding: "14px",
+
     fontSize: "16px",
+
     borderRadius: "10px",
+
     border: "none",
+
     cursor: "pointer",
+
     background:
       "linear-gradient(135deg, #8e2de2, #4a00e0)",
+
     color: "white",
+
     fontWeight: "bold",
+
     transition: "0.3s",
   },
 
   registerText: {
+
     color: "#372cb3",
+
     textAlign: "center",
+
     fontSize: "14px",
   },
 
   registerLink: {
+
     color: "#a22ffa",
+
     cursor: "pointer",
+
     fontWeight: "bold",
   },
 };
