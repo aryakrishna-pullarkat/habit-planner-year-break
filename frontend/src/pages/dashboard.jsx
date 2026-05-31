@@ -3,7 +3,6 @@ function Dashboard() {
     <div>
 
       <h1>Welcome to Dashboard 👋</h1>
-
       <div>
         <h3>Total Habits: 5</h3>
       </div>
