@@ -1,9 +1,7 @@
 function Footer() {
   return (
     <footer style={styles.footer}>
-      <p style={styles.text}>
-        © 2026 Habit Planner Team
-      </p>
+      <p style={styles.subtitle}>© 2026 Habit Planner Team</p>
     </footer>
   );
 }
