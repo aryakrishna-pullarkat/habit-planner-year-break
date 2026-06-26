@@ -1,15 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import Layout from "../components/Layout";
 
-function Register() {
+function Register({ switchToLogin, setFocused }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
     try {
       const response = await axios.post(
@@ -23,89 +25,111 @@ function Register() {
 
       console.log(response.data);
 
-      alert(response.data.message);
-
+      setMessage("Registration successful ✨");
+      setUsername("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
 
-      alert(error.response.data.message);
+      setMessage(
+        error.response?.data?.message || "Registration failed"
+      );
     }
+
+    setLoading(false);
   };
 
   return (
-    <Layout>
-      <div style={styles.container}>
-        <form style={styles.form} onSubmit={handleRegister}>
-          <h2 style={styles.title}>Join cult</h2>
+    <form style={styles.form} onSubmit={handleRegister}>
+      <h1 style={styles.title}>Join cult</h1>
 
-          <p style={styles.subtitle}>
-            Register to your journey 
-          </p>
+      <p style={styles.subtitle}>
+        Start your journey today
+      </p>
 
-          <input
-            type="text"
-            placeholder="Enter Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={styles.input}
-          />
+      <input
+        type="text"
+        placeholder="Enter Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={styles.input}
+      />
 
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-          />
+      <input
+        type="email"
+        placeholder="Enter Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={styles.input}
+      />
 
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-          />
+      <input
+        type="password"
+        placeholder="Enter Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        style={styles.input}
+      />
 
-          <button type="submit" style={styles.button}>
-            Register
-          </button>
-          <p style={styles.registerText}>
-            aldready have an account?{" "}
-            <span >
-              <Link style={styles.registerLink} to="/Login">Login</Link>
-            </span>
-          </p>
-        </form>
+      {message && (
+        <p
+          style={{
+            color:
+              message === "Registration successful ✨"
+                ? "#90ee90"
+                : "#ffb3c1",
+            fontSize: "14px",
+            margin: "0",
+            textAlign: "center",
+          }}
+        >
+          {message}
+        </p>
+      )}
 
-      </div>
-    </Layout>
+      <button
+        type="submit"
+        style={styles.button}
+        className="auth-btn"
+      >
+        {loading ? "Creating Account..." : "Register"}
+      </button>
+
+      <p style={styles.registerText}>
+        Already have an account?{" "}
+        <span
+          style={styles.registerLink}
+          onClick={switchToLogin}
+        >
+          Login
+        </span>
+      </p>
+    </form>
   );
 }
 
 const styles = {
-  container: {
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background:
-      "linear-gradient(135deg, #f7f4f5, #bcb4fd, #732ee3)",
-    position: "relative",
-    overflow: "hidden",
-  },
-
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "18px",
-    padding: "40px",
-    background: "rgba(255,255,255,0.35)",
-    border: "1px solid rgba(255,255,255,0.4)",
-    borderRadius: "20px",
-    width: "350px",
-    boxShadow: "0px 10px 40px rgba(80, 0, 180, 0.25)",
-    zIndex: 1,
-    backdropFilter: "blur(18px)",
+    gap: "20px",
+    padding: "50px",
+    position: "relative",
+    background: "rgba(255, 255, 255, 0.70)",
+    border: "1px solid rgb(255, 255, 255)",
+    borderRadius: "30px",
+    width: "400px",
+    boxShadow: "0px 20px 60px rgba(81, 0, 180, 0.36)",
+    zIndex: 2,
+    transform: "translateY(-10px)",
+    backdropFilter: "blur(10px)",
   },
 
   title: {
@@ -139,8 +163,7 @@ const styles = {
     borderRadius: "10px",
     border: "none",
     cursor: "pointer",
-    background:
-      "linear-gradient(135deg, #8e2de2, #4a00e0)",
+    background: "linear-gradient(135deg, #8e2de2, #4a00e0)",
     color: "white",
     fontWeight: "bold",
     transition: "0.3s",
