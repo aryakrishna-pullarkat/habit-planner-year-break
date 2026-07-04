@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Layout from "../components/Layout";
 import HabitCard from "../components/Habitcard";
+import AddHabitModal from "../components/AddHabitModal";
 
 function Dashboard() {
 
@@ -32,6 +33,15 @@ function Dashboard() {
       importance: "low",
       completed: false,
     },
+
+    {
+      id: 4,
+      title: "go to college",
+      description: "dont sleep",
+      streak: 3,
+      importance: "low",
+      completed: false,
+    },
   ]);
 
   const completedCount = habits.filter(
@@ -55,20 +65,64 @@ function Dashboard() {
     setHabits(updatedHabits);
   };
 
-  const handleEdit = (habit) => {
-    console.log("Edit clicked", habit);
-  };
+  const handleAddHabit = (habit) => {
+    setHabits([...habits, habit]);
+};
 
+const handleUpdateHabit = (updatedHabit) => {
+
+    const updatedHabits = habits.map((habit) =>
+
+        habit.id === updatedHabit.id
+            ? updatedHabit
+            : habit
+
+    );
+
+    setHabits(updatedHabits);
+
+    setEditingHabit(null);
+
+};
+
+  const handleEdit = (habit) => {
+
+    setEditingHabit(habit);
+    setShowModal(true);
+
+};
+
+  const [showModal, setShowModal] = useState(false);
+  const [editingHabit, setEditingHabit] = useState(null);
+  
   return (
-    <Layout>
+      
 
       <div style={styles.dashboardContainer}>
+        <AddHabitModal
+            isOpen={showModal}
+            onClose={() => {
+                setShowModal(false);
+                setEditingHabit(null);
+            }}
+            onAddHabit={handleAddHabit}
+            editingHabit={editingHabit}
+            onUpdateHabit={handleUpdateHabit}
+        />
+
+
 
         <div style={styles.topBar}>
 
-          <button style={styles.addButton}>
-            + Add Habit
+          <button
+              style={styles.addButton}
+              onClick={() => {
+                setEditingHabit(null);
+                setShowModal(true);}}
+              >
+              + Add Habit
           </button>
+          
 
           <div style={styles.completedBox}>
             Completed Today: {completedCount}/{habits.length}
@@ -95,7 +149,6 @@ function Dashboard() {
 
       </div>
 
-    </Layout>
   );
 }
 
